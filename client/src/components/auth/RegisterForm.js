@@ -1,7 +1,7 @@
 import { Button, Form } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
-const Login = () => {
+const RegisterForm = () => {
     return (
         <>
             <Form>
@@ -21,15 +21,23 @@ const Login = () => {
                         required
                     ></Form.Control>
                 </Form.Group>
+                <Form.Group className="mt-2">
+                    <Form.Control
+                        type="password"
+                        placeholder="Confirm password?"
+                        name="confirmPassword"
+                        required
+                    ></Form.Control>
+                </Form.Group>
                 <Button variant="success" type="submit" className="mt-4">
-                    Login
+                    Register
                 </Button>
             </Form>
             <p className="mt-2">
-                Don't have an account?
-                <Link to="/register">
+                Already have an account?
+                <Link to="/login">
                     <Button variant="info" size="sm" className="ml-2">
-                        Register
+                        Login
                     </Button>
                 </Link>
             </p>
@@ -37,4 +45,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default RegisterForm

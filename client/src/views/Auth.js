@@ -1,13 +1,24 @@
 import LoginForm from "../components/auth/LoginForm"
-import Landing from "../components/layout/Landing"
+import RegisterForm from "../components/auth/RegisterForm"
 
 const Auth = ({ authRoute }) => {
-    return (
+    let body = (
         <>
-            Learnit
             {authRoute === "login" && <LoginForm />}
-            {authRoute === "register" && <Landing />}
+            {authRoute === "register" && <RegisterForm />}
         </>
+    )
+
+    return (
+        <div className="landing">
+            <div className="dark-overlay">
+                <div className="landing-inner">
+                    <h1>Learnit</h1>
+                    <h4>Keep track of what you are learning</h4>
+                    {body}
+                </div>
+            </div>
+        </div>
     )
 }
 
