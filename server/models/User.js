@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const argon2 = require("argon2");
 
 const UserSchema = new mongoose.Schema(
     {
@@ -23,8 +24,16 @@ UserSchema.methods.getJWT = function () {
         {
             userId: this._id,
         },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
+        {
+            expiresIn: "7d",
+        }
     );
+};
+
+UserSchema.methods.verifyPassword = async function (hashedPassword, password) {
+    const isCorrectPassword = await argon2.verify(hashedPassword, password);
+    return isCorrectPassword;
 };
 
 module.exports = mongoose.model("users", UserSchema);
