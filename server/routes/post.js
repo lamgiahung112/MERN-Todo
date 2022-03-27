@@ -5,7 +5,7 @@ const authenticationMiddleware = require("../middlewares/authenticationMiddlewar
 
 // @route /api/v1/posts
 // @desc Create a new post
-// @access authenticated user
+// @access Private
 router.post("/", authenticationMiddleware, PostController.handleCreatePost);
 
 module.exports = router;
