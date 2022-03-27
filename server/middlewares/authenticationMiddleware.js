@@ -13,8 +13,7 @@ const authenticationMiddleware = function (req, res, next) {
             user: decoded.userId,
         };
         next();
-    } catch (error) {
-        console.log(error);
+    } catch {
         return res.status(403).json({
             success: false,
             message: "You are not authenticated to use this feature!",
