@@ -1,20 +1,20 @@
 import { Button, Form } from "react-bootstrap"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useState, useContext } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
+import AlertMessage from "../layout/AlertMessage"
 
 const Login = () => {
     // Context
     const { loginUser } = useContext(AuthContext)
-
-    // Router
-    const navigate = useNavigate()
 
     // Local state
     const [loginForm, setLoginForm] = useState({
         username: "",
         password: "",
     })
+
+    const [alert, setAlert] = useState(null)
 
     const { username, password } = loginForm
 
@@ -26,14 +26,16 @@ const Login = () => {
 
         const loginData = await loginUser(loginForm)
 
-        if (loginData.success) {
-            navigate("/dashboard")
+        if (!loginData.success) {
+            setAlert({ type: "danger", message: loginData.message })
+            setTimeout(() => setAlert(null), 3000)
         }
     }
 
     return (
         <>
             <Form onSubmit={login}>
+                <AlertMessage info={alert}></AlertMessage>
                 <Form.Group className="mt-2">
                     <Form.Control
                         type="text"
