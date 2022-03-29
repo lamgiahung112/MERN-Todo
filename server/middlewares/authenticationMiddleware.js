@@ -1,24 +1,29 @@
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken")
 
 const authenticationMiddleware = function (req, res, next) {
-    const { title, description, url, state, accessToken } = req.body;
+    const { title, description, url, state } = req.body
 
     try {
-        const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+        const authHeader = req.headers.authorization
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            throw new Error()
+        }
+        const accessToken = authHeader.split(" ")[1]
+        const decoded = jwt.verify(accessToken, process.env.JWT_SECRET)
         req.body = {
             title,
             description,
             url,
             state,
             user: decoded.userId,
-        };
-        next();
+        }
+        next()
     } catch {
         return res.status(403).json({
             success: false,
             message: "You are not authenticated to use this feature!",
-        });
+        })
     }
-};
+}
 
-module.exports = authenticationMiddleware;
+module.exports = authenticationMiddleware
