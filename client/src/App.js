@@ -5,6 +5,7 @@ import Auth from "./views/Auth"
 import AuthContextProvider from "./contexts/AuthContext"
 import ProtectedRoute from "./routing/ProtectedRoute"
 import Dashboard from "./views/Dashboard"
+import About from "./views/About"
 
 function App() {
     return (
@@ -22,6 +23,9 @@ function App() {
                     />
                     <Route path="/dashboard" element={<ProtectedRoute />}>
                         <Route path="/dashboard" element={<Dashboard />} />
+                    </Route>
+                    <Route path="/about" element={<ProtectedRoute />}>
+                        <Route path="/about" element={<About />} />
                     </Route>
                 </Routes>
             </Router>

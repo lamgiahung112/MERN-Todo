@@ -63,6 +63,19 @@ const AuthContextProvider = ({ children }) => {
         }
     }
 
+    // Logout
+    const logoutUser = () => {
+        localStorage.removeItem("accessToken")
+        setAuthToken(null)
+        dispatch({
+            type: "SET_AUTH",
+            payload: {
+                isAuthenticated: false,
+                user: null,
+            },
+        })
+    }
+
     const registerUser = async (userForm) => {
         try {
             const response = await axios.post(
@@ -83,7 +96,7 @@ const AuthContextProvider = ({ children }) => {
         }
     }
 
-    const authContextData = { loginUser, registerUser, authState }
+    const authContextData = { loginUser, registerUser, logoutUser, authState }
 
     return (
         <AuthContext.Provider value={authContextData}>
