@@ -2,6 +2,8 @@ import {
     POST_LOAD_FAILED,
     POST_LOAD_SUCCESS,
     ADD_POST,
+    DELETE_POST,
+    UPDATE_POST,
 } from "../contexts/constants"
 
 export const postReducer = (state, action) => {
@@ -24,6 +26,20 @@ export const postReducer = (state, action) => {
             return {
                 ...state,
                 posts: [...state.posts, payload],
+                postsLoading: false,
+            }
+        case DELETE_POST:
+            return {
+                ...state,
+                posts: state.posts.filter((post) => post._id !== payload),
+                postsLoading: false,
+            }
+        case UPDATE_POST:
+            return {
+                ...state,
+                posts: state.posts.map((post) =>
+                    post._id === payload._id ? payload : post
+                ),
                 postsLoading: false,
             }
         default:

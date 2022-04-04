@@ -6,3 +6,5 @@ export const API_URL =
 export const POST_LOAD_SUCCESS = "POST_LOAD_SUCCESS"
 export const POST_LOAD_FAILED = "POST_LOAD_FAILED"
 export const ADD_POST = "ADD_POST"
+export const DELETE_POST = "DELETE_POST"
+export const UPDATE_POST = "UPDATE_POST"

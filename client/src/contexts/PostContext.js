@@ -5,6 +5,8 @@ import {
     POST_LOAD_FAILED,
     POST_LOAD_SUCCESS,
     ADD_POST,
+    DELETE_POST,
+    UPDATE_POST,
 } from "./constants"
 import axios from "axios"
 
@@ -57,10 +59,51 @@ const PostContextProvider = ({ children }) => {
         }
     }
 
+    // Delete a post
+    const deletePost = async (postId) => {
+        try {
+            const response = await axios.delete(`${API_URL}/posts/${postId}`)
+            if (response.data.success) {
+                dispatch({
+                    type: DELETE_POST,
+                    payload: postId,
+                })
+                return response.data
+            }
+        } catch (error) {
+            return error.response.data
+                ? error.response.data
+                : { success: false, message: "Internal server error!" }
+        }
+    }
+
+    // Update a post
+    const updatePost = async (updatedPost) => {
+        try {
+            const response = await axios.put(
+                `${API_URL}/posts/${updatedPost._id}`,
+                updatedPost
+            )
+            if (response.data.success) {
+                dispatch({
+                    type: UPDATE_POST,
+                    payload: response.data.post,
+                })
+                return response.data
+            }
+        } catch (error) {
+            return error.response.data
+                ? error.response.data
+                : { success: false, message: "Internal server error!" }
+        }
+    }
+
     const postContextData = {
         postState,
         getPosts,
         addPost,
+        deletePost,
+        updatePost,
         showAddPostModal,
         setShowAddPostModal,
         showToast,
