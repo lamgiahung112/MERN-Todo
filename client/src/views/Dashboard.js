@@ -9,6 +9,7 @@ import {
     Col,
     OverlayTrigger,
     Tooltip,
+    Toast,
 } from "react-bootstrap"
 import addIcon from "../assets/plus-circle-fill.svg"
 import SinglePost from "../components/posts/SinglePost"
@@ -26,6 +27,8 @@ const Dashboard = () => {
         postState: { posts, postsLoading },
         getPosts,
         setShowAddPostModal,
+        showToast: { show, message, type },
+        setShowToast,
     } = useContext(PostContext)
 
     //Get posts on mount
@@ -55,7 +58,12 @@ const Dashboard = () => {
                             Click the button below to track the skills you want
                             to learn!
                         </Card.Text>
-                        <Button variant="success">LearnIt!</Button>
+                        <Button
+                            variant="success"
+                            onClick={setShowAddPostModal.bind(this, true)}
+                        >
+                            LearnIt!
+                        </Button>
                     </Card.Body>
                 </Card>
             </>
@@ -98,6 +106,24 @@ const Dashboard = () => {
         <>
             {body}
             <AddPostModal />
+
+            {/** After post is added, show toast */}
+            <Toast
+                show={show}
+                style={{ position: "fixed", top: "20%", right: "10px" }}
+                className={`bg-${type} text-white`}
+                onClose={setShowToast.bind(this, {
+                    show: false,
+                    message: "",
+                    type: null,
+                })}
+                delay={3000}
+                autohide
+            >
+                <Toast.Body>
+                    <strong>{message}</strong>
+                </Toast.Body>
+            </Toast>
         </>
     )
 }

@@ -5,3 +5,4 @@ export const API_URL =
 
 export const POST_LOAD_SUCCESS = "POST_LOAD_SUCCESS"
 export const POST_LOAD_FAILED = "POST_LOAD_FAILED"
+export const ADD_POST = "ADD_POST"

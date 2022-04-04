@@ -1,13 +1,44 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { Modal, Button, Form } from "react-bootstrap"
 import { PostContext } from "../../contexts/PostContext"
 
 const AddPostModal = () => {
     // Context
-    const { showAddPostModal, setShowAddPostModal } = useContext(PostContext)
+    const { showAddPostModal, setShowAddPostModal, addPost, setShowToast } =
+        useContext(PostContext)
+
+    // States
+    const [newPost, setNewPost] = useState({
+        title: "",
+        description: "",
+        url: "",
+        state: "TO LEARN",
+    })
+
+    const { title, description, url } = newPost
 
     const closeModal = () => {
+        setNewPost({
+            title: "",
+            description: "",
+            url: "",
+            state: "TO LEARN",
+        })
         setShowAddPostModal(false)
+    }
+
+    const handleChangeNewPostForm = (e) =>
+        setNewPost({ ...newPost, [e.target.name]: e.target.value })
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const { success, message } = await addPost(newPost)
+        closeModal()
+        setShowToast({
+            show: true,
+            message,
+            type: success ? "success" : "danger",
+        })
     }
 
     return (
@@ -15,7 +46,7 @@ const AddPostModal = () => {
             <Modal.Header closeButton>
                 <Modal.Title>What do you want to learn?</Modal.Title>
             </Modal.Header>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <Modal.Body>
                     <Form.Group>
                         <Form.Control
@@ -24,6 +55,8 @@ const AddPostModal = () => {
                             name="title"
                             required
                             aria-describedby="title-help"
+                            value={title}
+                            onChange={(e) => handleChangeNewPostForm(e)}
                         ></Form.Control>
                         <Form.Text id="title-help" muted>
                             Required
@@ -36,6 +69,8 @@ const AddPostModal = () => {
                             rows={3}
                             placeholder="Description"
                             name="description"
+                            value={description}
+                            onChange={(e) => handleChangeNewPostForm(e)}
                         ></Form.Control>
                     </Form.Group>
 
@@ -45,6 +80,8 @@ const AddPostModal = () => {
                             type="text"
                             placeholder="Youtube tutorial URL"
                             name="url"
+                            value={url}
+                            onChange={(e) => handleChangeNewPostForm(e)}
                         ></Form.Control>
                     </Form.Group>
                 </Modal.Body>

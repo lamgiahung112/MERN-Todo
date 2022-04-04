@@ -1,6 +1,11 @@
 import { createContext, useReducer, useState } from "react"
 import { postReducer } from "../reducers/postReducer"
-import { API_URL, POST_LOAD_FAILED, POST_LOAD_SUCCESS } from "./constants"
+import {
+    API_URL,
+    POST_LOAD_FAILED,
+    POST_LOAD_SUCCESS,
+    ADD_POST,
+} from "./constants"
 import axios from "axios"
 
 export const PostContext = createContext()
@@ -13,6 +18,11 @@ const PostContextProvider = ({ children }) => {
     })
 
     const [showAddPostModal, setShowAddPostModal] = useState(false)
+    const [showToast, setShowToast] = useState({
+        show: false,
+        message: "",
+        type: null,
+    })
 
     // Get all posts
     const getPosts = async () => {
@@ -24,16 +34,37 @@ const PostContextProvider = ({ children }) => {
                     payload: response.data.posts,
                 })
             }
-        } catch (error) {
+        } catch {
             dispatch({ type: POST_LOAD_FAILED })
+        }
+    }
+
+    // Add a new post
+    const addPost = async (postData) => {
+        try {
+            const response = await axios.post(`${API_URL}/posts`, postData)
+            if (response.data.success) {
+                dispatch({
+                    type: ADD_POST,
+                    payload: response.data.post,
+                })
+                return response.data
+            }
+        } catch (error) {
+            return error.response.data
+                ? error.response.data
+                : { success: false, message: "Internal server error!" }
         }
     }
 
     const postContextData = {
         postState,
         getPosts,
+        addPost,
         showAddPostModal,
         setShowAddPostModal,
+        showToast,
+        setShowToast,
     }
 
     return (
