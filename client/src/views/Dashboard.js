@@ -14,6 +14,7 @@ import {
 import addIcon from "../assets/plus-circle-fill.svg"
 import SinglePost from "../components/posts/SinglePost"
 import AddPostModal from "../components/posts/AddPostModal"
+import UpdatePostModal from "../components/posts/UpdatePostModal"
 
 const Dashboard = () => {
     // Contexts
@@ -106,6 +107,7 @@ const Dashboard = () => {
         <>
             {body}
             <AddPostModal />
+            <UpdatePostModal />
 
             {/** After post is added, show toast */}
             <Toast

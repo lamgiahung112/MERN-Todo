@@ -4,6 +4,7 @@ import {
     ADD_POST,
     DELETE_POST,
     UPDATE_POST,
+    FIND_POST,
 } from "../contexts/constants"
 
 export const postReducer = (state, action) => {
@@ -41,6 +42,11 @@ export const postReducer = (state, action) => {
                     post._id === payload._id ? payload : post
                 ),
                 postsLoading: false,
+            }
+        case FIND_POST:
+            return {
+                ...state,
+                selectedPost: payload,
             }
         default:
             return { ...state }
