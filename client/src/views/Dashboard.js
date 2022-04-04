@@ -1,8 +1,18 @@
 import { PostContext } from "../contexts/PostContext"
 import { AuthContext } from "../contexts/AuthContext"
 import { useContext, useEffect } from "react"
-import { Spinner, Card, Button, Row, Col } from "react-bootstrap"
+import {
+    Spinner,
+    Card,
+    Button,
+    Row,
+    Col,
+    OverlayTrigger,
+    Tooltip,
+} from "react-bootstrap"
+import addIcon from "../assets/plus-circle-fill.svg"
 import SinglePost from "../components/posts/SinglePost"
+import AddPostModal from "../components/posts/AddPostModal"
 
 const Dashboard = () => {
     // Contexts
@@ -15,6 +25,7 @@ const Dashboard = () => {
     const {
         postState: { posts, postsLoading },
         getPosts,
+        setShowAddPostModal,
     } = useContext(PostContext)
 
     //Get posts on mount
@@ -61,11 +72,34 @@ const Dashboard = () => {
                         </Col>
                     ))}
                 </Row>
+
+                {/* OPEN ADD POST MODAL */}
+                <OverlayTrigger
+                    placement="left"
+                    overlay={<Tooltip>Add a new skill to learn</Tooltip>}
+                >
+                    <Button
+                        className="btn-floating"
+                        onClick={setShowAddPostModal.bind(this, true)}
+                    >
+                        <img
+                            src={addIcon}
+                            alt="add post"
+                            width={60}
+                            height={60}
+                        />
+                    </Button>
+                </OverlayTrigger>
             </>
         )
     }
 
-    return body
+    return (
+        <>
+            {body}
+            <AddPostModal />
+        </>
+    )
 }
 
 export default Dashboard
