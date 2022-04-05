@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { memo, useContext, useState } from "react"
 import { Modal, Button, Form } from "react-bootstrap"
 import { PostContext } from "../../contexts/PostContext"
 
@@ -99,4 +99,4 @@ const AddPostModal = () => {
     )
 }
 
-export default AddPostModal
+export default memo(AddPostModal)

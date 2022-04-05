@@ -110,4 +110,4 @@ const UpdatePostModal = () => {
     )
 }
 
-export default UpdatePostModal
+export default memo(UpdatePostModal)

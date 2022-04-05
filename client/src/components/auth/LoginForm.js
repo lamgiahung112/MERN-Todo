@@ -1,6 +1,6 @@
 import { Button, Form } from "react-bootstrap"
 import { Link } from "react-router-dom"
-import { useState, useContext } from "react"
+import { useState, useContext, memo } from "react"
 import { AuthContext } from "../../contexts/AuthContext"
 import AlertMessage from "../layout/AlertMessage"
 
@@ -72,4 +72,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default memo(Login)

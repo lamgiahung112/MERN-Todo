@@ -3,7 +3,7 @@ import learnItLogo from "../../assets/logo.svg"
 import logoutIcon from "../../assets/logout.svg"
 import { Link } from "react-router-dom"
 import { AuthContext } from "../../contexts/AuthContext"
-import { useContext } from "react"
+import { memo, useContext } from "react"
 
 const NavbarMenu = () => {
     const {
@@ -65,4 +65,4 @@ const NavbarMenu = () => {
     )
 }
 
-export default NavbarMenu
+export default memo(NavbarMenu)

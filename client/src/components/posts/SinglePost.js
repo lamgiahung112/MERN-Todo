@@ -1,3 +1,4 @@
+import { memo } from "react"
 import { Card, Row, Col, Badge } from "react-bootstrap"
 import ActionButtons from "./ActionButton"
 
@@ -40,4 +41,4 @@ const SinglePost = ({ post: { _id, state, title, description, url } }) => (
     </Card>
 )
 
-export default SinglePost
+export default memo(SinglePost)
