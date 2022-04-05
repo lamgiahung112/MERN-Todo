@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Modal, Button, Form } from "react-bootstrap"
 import { PostContext } from "../../contexts/PostContext"
 
@@ -12,26 +12,15 @@ const UpdatePostModal = () => {
         postState: { selectedPost },
     } = useContext(PostContext)
 
-    console.log(selectedPost) // => đúng kết quả
-
-    /**
-        createdAt: "2022-04-03T14:08:05.697Z"
-        description: "actually react"
-        state: "TO LEARN"
-        title: "learning Reactjs 2"
-        updatedAt: "2022-04-03T14:08:05.697Z"
-        url: "https://"
-        __v: 0
-        _id: "6249aa4551ff323a49f59128"
-     */
-
     // States
-    const [newPost, setNewPost] = useState(selectedPost)
-    console.log(newPost) // -> trả ra object rỗng
+    const [newPost, setNewPost] = useState({ ...selectedPost })
+
+    useEffect(() => setNewPost({ ...selectedPost }), [selectedPost])
 
     const { title, description, url, state } = newPost
 
     const closeModal = () => {
+        setNewPost({ ...selectedPost })
         setShowUpdatePostModal(false)
     }
 
@@ -63,7 +52,7 @@ const UpdatePostModal = () => {
                             name="title"
                             required
                             aria-describedby="title-help"
-                            value={title}
+                            value={title || ""}
                             onChange={(e) => handleChangeUpdatePostForm(e)}
                         ></Form.Control>
                         <Form.Text id="title-help" muted>
@@ -77,7 +66,7 @@ const UpdatePostModal = () => {
                             rows={3}
                             placeholder="Description"
                             name="description"
-                            value={description}
+                            value={description || ""}
                             onChange={(e) => handleChangeUpdatePostForm(e)}
                         ></Form.Control>
                     </Form.Group>
@@ -88,9 +77,23 @@ const UpdatePostModal = () => {
                             type="text"
                             placeholder="Youtube tutorial URL"
                             name="url"
-                            value={url}
+                            value={url || ""}
                             onChange={(e) => handleChangeUpdatePostForm(e)}
                         ></Form.Control>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Control
+                            className="mt-3"
+                            as="select"
+                            value={state || "TO LEARN"}
+                            onChange={handleChangeUpdatePostForm}
+                            name="state"
+                        >
+                            <option value="TO LEARN">TO LEARN</option>
+                            <option value="LEARNING">LEARNING</option>
+                            <option value="LEARNED">LEARNED</option>
+                        </Form.Control>
                     </Form.Group>
                 </Modal.Body>
 
@@ -99,7 +102,7 @@ const UpdatePostModal = () => {
                         Cancel
                     </Button>
                     <Button variant="success" type="submit">
-                        Learn it!
+                        Update
                     </Button>
                 </Modal.Footer>
             </Form>

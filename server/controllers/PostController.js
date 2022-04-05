@@ -34,7 +34,6 @@ class PostController {
         const { user } = req.body
         Post.find({ user }, "-user")
             .then((posts) => {
-                console.log(posts)
                 return res.json({
                     success: true,
                     message: "Successfully found posts of user",
